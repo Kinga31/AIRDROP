@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirdropAlpha - Airdrops Crypto Gratuits</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        body {
+            background: #f8fafc;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .airdrop-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .airdrop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .project-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 3px solid #e5e7eb;
+        }
+        
+        .badge-type {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-free {
+            background: #d1fae5;
+            color: var(--success);
+        }
+        
+        .badge-hot {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+        
+        .reward-text {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .category-badge {
+            background: #e0e7ff;
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .stats-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-gem me-2"></i>AirdropAlpha
+            </a>
+            <div class="d-flex">
+                <button class="btn btn-primary" onclick="loadAirdrops()">
+                    <i class="fas fa-sync-alt"></i> Rafraîchir
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">Airdrops Crypto Gratuits</h1>
+            <p class="lead mb-4">Découvrez les meilleurs airdrops en temps réel</p>
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-light" onclick="filterByType('Free')">
+                    <i class="fas fa-coins"></i> Gratuits
+                </button>
+                <button class="btn btn-outline-light" onclick="filterByType('Hot')">
+                    <i class="fas fa-fire"></i> Populaires
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="container mb-5">
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="fas fa-gift text-primary fa-2x mb-3"></i>
+                    <div class="stats-value" id="totalAirdrops">0</div>
+                    <div class="text-muted">Total Airdrops</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="fas fa-coins text-success fa-2x mb-3"></i>
+                    <div class="stats-value" id="freeAirdrops">0</div>
+                    <div class="text-muted">Gratuits</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="fas fa-fire text-danger fa-2x mb-3"></i>
+                    <div class="stats-value" id="hotAirdrops">0</div>
+                    <div class="text-muted">Populaires</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="fas fa-dollar-sign text-warning fa-2x mb-3"></i>
+                    <div class="stats-value" id="totalValue">$0</div>
+                    <div class="text-muted">Valeur Totale</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Filters -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button class="btn btn-sm btn-outline-primary active" onclick="showAll()">
+                                        Tous
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="filterByCategory('Infrastructure')">
+                                        Infrastructure
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="filterByCategory('Layer 2')">
+                                        Layer 2
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-3 mt-md-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Rechercher..." id="searchInput">
+                                    <button class="btn btn-primary" onclick="searchAirdrops()">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="text-center my-5">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+            <p class="mt-3">Chargement des airdrops...</p>
+        </div>
+
+        <!-- Airdrops Container -->
+        <div id="airdropsContainer" class="row">
+            <!-- Les cartes seront générées ici -->
+        </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="text-center my-5" style="display: none;">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h4>Aucun airdrop trouvé</h4>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="mb-3"><i class="fas fa-gem me-2"></i>AirdropAlpha</h4>
+                    <p>Plateforme d'airdrops crypto en temps réel.</p>
+                    <p>Dernière mise à jour : <span id="lastUpdate">--/--/----</span></p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>Suivez-nous :</p>
+                    <div class="d-flex justify-content-end gap-3">
+                        <a href="#" class="text-white fs-4"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 🔧 CONFIGURATION
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxsQ8n2SnTvsO7cvy5VQHyIybxAiukiLXuO_R2gTaQ58A3gUS4Pq1GK9gKYpLOqPc8W4Q/exec';
+        
+        let allAirdrops = [];
+        let filteredAirdrops = [];
+        
+        // Charger les données au démarrage
+        document.addEventListener('DOMContentLoaded', loadAirdrops);
+        
+        async function loadAirdrops() {
+            try {
+                showLoading(true);
+                
+                // Faire la requête avec cache busting
+                const response = await fetch(API_URL + '?t=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // 🔧 CORRECTION : Gérer le format avec lettres de colonnes
+                allAirdrops = normalizeAirdropsData(data);
+                
+                // Afficher les données
+                displayAirdrops(allAirdrops);
+                updateStats(allAirdrops);
+                updateLastUpdate();
+                
+                showLoading(false);
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError(`Erreur de chargement: ${error.message}`);
+                showLoading(false);
+                
+                // Données de secours
+                allAirdrops = getFallbackData();
+                displayAirdrops(allAirdrops);
+            }
+        }
+        
+        function normalizeAirdropsData(data) {
+            // Vérifier le format des données
+            console.log('Données brutes:', data);
+            
+            if (!Array.isArray(data) || data.length === 0) {
+                return [];
+            }
+            
+            // Format 1: Données avec lettres de colonnes (A, B, C...)
+            if (data[0] && data[0].A === "ID") {
+                console.log('Format détecté: Lettres de colonnes');
+                return convertLetterColumnsToObjects(data);
+            }
+            
+            // Format 2: Données déjà normalisées
+            if (data[0] && data[0].Nom) {
+                console.log('Format détecté: Données normalisées');
+                return data.filter(item => item.Nom); // Filtrer l'en-tête
+            }
+            
+            // Format inconnu
+            console.log('Format inconnu, tentative de conversion');
+            return data;
+        }
+        
+        function convertLetterColumnsToObjects(data) {
+            // La première ligne contient les noms de colonnes
+            // {"A": "ID", "B": "Nom", "C": "URL"...}
+            const headerRow = data[0];
+            
+            // Convertir les lettres en noms de colonnes
+            const columnMap = {};
+            for (const [letter, columnName] of Object.entries(headerRow)) {
+                if (columnName && columnName.trim() !== '') {
+                    columnMap[letter] = columnName;
+                }
+            }
+            
+            // Convertir les lignes suivantes
+            const result = [];
+            
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                const airdrop = {};
+                
+                for (const [letter, value] of Object.entries(row)) {
+                    const columnName = columnMap[letter];
+                    if (columnName) {
+                        airdrop[columnName] = value;
+                    }
+                }
+                
+                // Vérifier que ce n'est pas une ligne vide
+                if (airdrop.Nom || airdrop.ID) {
+                    result.push(airdrop);
+                }
+            }
+            
+            console.log('Données converties:', result);
+            return result;
+        }
+        
+        function displayAirdrops(airdrops) {
+            const container = document.getElementById('airdropsContainer');
+            
+            if (!airdrops || airdrops.length === 0) {
+                container.innerHTML = '';
+                document.getElementById('noResults').style.display = 'block';
+                return;
+            }
+            
+            document.getElementById('noResults').style.display = 'none';
+            
+            container.innerHTML = airdrops.map(airdrop => {
+                // Récupérer les valeurs avec valeurs par défaut
+                const nom = airdrop.Nom || airdrop.nom || 'Nom inconnu';
+                const logo = airdrop.Logo || airdrop.logo || 'https://www.google.com/s2/favicons?domain=google.com';
+                const type = airdrop.Type || airdrop.type || '';
+                const categories = airdrop.Catégorie || airdrop.Category || '';
+                const reward = airdrop.Récompense || airdrop.Reward || 'Non spécifié';
+                const effort = airdrop.Effort || airdrop.effort || 'Moyen';
+                const score = airdrop.Score || airdrop.score || 0;
+                const commission = airdrop.Commission || airdrop.commission || '';
+                const url = airdrop.URL || airdrop.url || '#';
+                
+                return `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="airdrop-card h-100">
+                            <!-- Header -->
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="d-flex align-items-center">
+                                    <img src="${logo}" 
+                                         alt="${nom}" 
+                                         class="project-logo me-3"
+                                         onerror="this.src='https://www.google.com/s2/favicons?domain=google.com'">
+                                    <div>
+                                        <h5 class="fw-bold mb-1">${nom}</h5>
+                                        <div class="d-flex flex-wrap">
+                                            ${type.includes('Free') ? 
+                                                '<span class="badge-type badge-free me-2">Gratuit</span>' : ''}
+                                            ${type.includes('Hot') ? 
+                                                '<span class="badge-type badge-hot">Populaire</span>' : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    ${commission ? `<div class="text-muted small">${commission}</div>` : ''}
+                                    <div class="fw-bold text-primary">${score}/100</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Categories -->
+                            ${categories ? `
+                            <div class="mb-3">
+                                ${categories.split(',').map(cat => 
+                                    `<span class="category-badge">${cat.trim()}</span>`
+                                ).join('')}
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Reward -->
+                            <div class="reward-text mb-3">
+                                <i class="fas fa-gift me-2"></i>${reward}
+                            </div>
+                            
+                            <!-- Effort -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge ${effort === 'Faible' ? 'bg-success' : 'bg-warning'}">
+                                    Effort: ${effort}
+                                </span>
+                                <small class="text-muted">
+                                    <i class="fas fa-star text-warning"></i> Score: ${score}
+                                </small>
+                            </div>
+                            
+                            <!-- Button -->
+                            <div class="d-grid">
+                                <a href="${url}" target="_blank" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt me-2"></i> Participer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function updateStats(airdrops) {
+            document.getElementById('totalAirdrops').textContent = airdrops.length;
+            
+            const freeCount = airdrops.filter(a => {
+                const type = (a.Type || a.type || '').toLowerCase();
+                return type.includes('free');
+            }).length;
+            
+            const hotCount = airdrops.filter(a => {
+                const type = (a.Type || a.type || '').toLowerCase();
+                return type.includes('hot');
+            }).length;
+            
+            document.getElementById('freeAirdrops').textContent = freeCount;
+            document.getElementById('hotAirdrops').textContent = hotCount;
+            
+            // Calculer la valeur totale (simplifié)
+            let totalValue = 0;
+            airdrops.forEach(a => {
+                const reward = a.Récompense || a.Reward || '';
+                const match = reward.match(/\$(\d+)/);
+                if (match) totalValue += parseInt(match[1]) * 100;
+            });
+            
+            document.getElementById('totalValue').textContent = `$${totalValue}K`;
+        }
+        
+        function updateLastUpdate() {
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = 
+                now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        function showAll() {
+            displayAirdrops(allAirdrops);
+            updateStats(allAirdrops);
+        }
+        
+        function filterByType(type) {
+            const filtered = allAirdrops.filter(airdrop => {
+                const airdropType = (airdrop.Type || airdrop.type || '').toLowerCase();
+                return airdropType.includes(type.toLowerCase());
+            });
+            displayAirdrops(filtered);
+            updateStats(filtered);
+        }
+        
+        function filterByCategory(category) {
+            const filtered = allAirdrops.filter(airdrop => {
+                const categories = (airdrop.Catégorie || airdrop.Category || '').toLowerCase();
+                return categories.includes(category.toLowerCase());
+            });
+            displayAirdrops(filtered);
+            updateStats(filtered);
+        }
+        
+        function searchAirdrops() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                displayAirdrops(allAirdrops);
+                return;
+            }
+            
+            const filtered = allAirdrops.filter(airdrop => {
+                const nom = (airdrop.Nom || airdrop.nom || '').toLowerCase();
+                const categories = (airdrop.Catégorie || airdrop.Category || '').toLowerCase();
+                
+                return nom.includes(searchTerm) || categories.includes(searchTerm);
+            });
+            
+            displayAirdrops(filtered);
+            updateStats(filtered);
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+        
+        function showError(message) {
+            const container = document.getElementById('airdropsContainer');
+            container.innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        ${message}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getFallbackData() {
+            return [
+                {
+                    "Nom": "LayerZero",
+                    "Logo": "https://www.google.com/s2/favicons?domain=layerzero.network",
+                    "Type": "Hot,Free",
+                    "Catégorie": "Infrastructure,DeFi",
+                    "Récompense": "$500-$5000+",
+                    "Effort": "Moyen",
+                    "Score": "19",
+                    "Commission": "$15M",
+                    "URL": "https://layerzero.network?ref=AIRDROPALPHA"
+                },
+                {
+                    "Nom": "zkSync",
+                    "Logo": "https://www.google.com/s2/favicons?domain=zksync.io",
+                    "Type": "Free",
+                    "Catégorie": "Layer 2",
+                    "Récompense": "$200-$2000+",
+                    "Effort": "Faible",
+                    "Score": "8",
+                    "Commission": "$55M",
+                    "URL": "https://zksync.io?ref=AIRDROPALPHA"
+                }
+            ];
+        }
+        
+        // Recherche en temps réel
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            searchAirdrops();
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
