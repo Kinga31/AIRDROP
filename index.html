@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirdropAlpha - Airdrops Crypto Gratuits & Populaires</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --free: #10b981;
+            --hot: #ef4444;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
+            color: white;
+            padding: 80px 0 60px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path fill="%23ffffff10" d="M0,50 Q250,0 500,50 T1000,50 V100 H0 Z"/></svg>') bottom center no-repeat;
+            background-size: 100% auto;
+        }
+        
+        .airdrop-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .airdrop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.12);
+            border-color: var(--primary);
+        }
+        
+        .project-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: white;
+        }
+        
+        .type-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .type-free {
+            background: #d1fae5;
+            color: var(--free);
+            border: 1px solid #a7f3d0;
+        }
+        
+        .type-hot {
+            background: #fee2e2;
+            color: var(--hot);
+            border: 1px solid #fecaca;
+        }
+        
+        .reward-badge {
+            background: linear-gradient(90deg, #10b981, #34d399);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            display: inline-block;
+            font-size: 1.1em;
+        }
+        
+        .commission-badge {
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .category-tag {
+            background: #e0e7ff;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+        
+        .effort-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .effort-faible {
+            background: #d1fae5;
+            color: var(--success);
+        }
+        
+        .effort-moyen {
+            background: #fef3c7;
+            color: var(--warning);
+        }
+        
+        .score-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2em;
+        }
+        
+        .score-high {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+        }
+        
+        .score-medium {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: white;
+        }
+        
+        .score-low {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+        }
+        
+        .expiry-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .expiry-soon {
+            background: #fee2e2;
+            color: #dc2626;
+            animation: pulse 2s infinite;
+        }
+        
+        .expiry-future {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        
+        .no-expiry {
+            background: #d1fae5;
+            color: #059669;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+            height: 100%;
+        }
+        
+        .stats-value {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .description-text {
+            color: #6b7280;
+            font-size: 0.95em;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .alert-live {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            animation: slideIn 0.5s ease;
+            max-width: 400px;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .status-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .status-live {
+            background: #10b981;
+            color: white;
+        }
+        
+        .status-demo {
+            background: #f59e0b;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-gem me-2"></i>AirdropAlpha
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Accueil</a>
+                <a class="nav-link" href="#free"><i class="fas fa-coins me-1"></i> Gratuits</a>
+                <a class="nav-link" href="#hot"><i class="fas fa-fire me-1"></i> Populaires</a>
+                <a class="nav-link" href="#ending"><i class="fas fa-clock me-1"></i> Bientôt finis</a>
+                <button class="btn btn-primary ms-3" onclick="refreshData()" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Réclamez des Airdrops Crypto Gratuits
+                    </h1>
+                    <p class="lead mb-4">
+                        <i class="fas fa-bolt text-warning me-2"></i>
+                        <span id="liveCount">0</span> airdrops live depuis Google Sheets
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn btn-light btn-lg" onclick="filterByType('Free')">
+                            <i class="fas fa-coins"></i> Airdrops Gratuits
+                        </button>
+                        <button class="btn btn-outline-light btn-lg" onclick="filterByType('Hot')">
+                            <i class="fas fa-fire"></i> Airdrops Populaires
+                        </button>
+                        <button class="btn btn-outline-light btn-lg" onclick="filterByEffort('Faible')">
+                            <i class="fas fa-bolt"></i> Tâches Faciles
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="stats-card bg-white bg-opacity-10 border-0 text-white">
+                                <div class="stats-value" id="totalFree">0</div>
+                                <div>Airdrops Gratuits</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stats-card bg-white bg-opacity-10 border-0 text-white">
+                                <div class="stats-value" id="totalHot">0</div>
+                                <div>Airdrops Populaires</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="container mb-5">
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="fas fa-gift text-primary fa-2x"></i>
+                    <div class="stats-value" id="totalAirdrops">0</div>
+                    <div class="text-muted">Total Airdrops</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="fas fa-clock text-warning fa-2x"></i>
+                    <div class="stats-value" id="endingSoon">0</div>
+                    <div class="text-muted">Bientôt finis</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="fas fa-chart-line text-success fa-2x"></i>
+                    <div class="stats-value" id="avgReward">$0</div>
+                    <div class="text-muted">Récompense Moyenne</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="fas fa-dollar-sign text-secondary fa-2x"></i>
+                    <div class="stats-value" id="totalFunding">$0</div>
+                    <div class="text-muted">Financement Total</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Category Tabs -->
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <ul class="nav nav-pills mb-4" id="categoryTabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" onclick="showAllAirdrops()">
+                            <i class="fas fa-layer-group me-2"></i>Tous les Airdrops
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" onclick="filterByType('Free')">
+                            <i class="fas fa-coins me-2"></i>Airdrops Gratuits
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" onclick="filterByType('Hot')">
+                            <i class="fas fa-fire me-2"></i>Airdrops Populaires
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" onclick="filterByType('Hot,Free')">
+                            <i class="fas fa-star me-2"></i>Gratuits & Populaires
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Filters -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h6 class="mb-3"><i class="fas fa-filter me-2"></i>Filtres Rapides</h6>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button class="btn btn-sm btn-outline-primary filter-btn active" onclick="filterByCategory('all')">
+                                        Toutes Catégories
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary filter-btn" onclick="filterByCategory('Infrastructure')">
+                                        Infrastructure
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary filter-btn" onclick="filterByCategory('Layer 2')">
+                                        Layer 2
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary filter-btn" onclick="filterByCategory('Depin')">
+                                        DePIN
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3 mt-md-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Rechercher un airdrop..." id="searchInput">
+                                    <button class="btn btn-primary" onclick="searchAirdrops()">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Airdrops Grid -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h3 class="fw-bold section-title" id="sectionTitle">
+                    <i class="fas fa-rocket me-2"></i>Derniers Airdrops Crypto
+                    <small class="text-muted fs-6 ms-2">
+                        <span id="filterCount">0</span> airdrops affichés
+                    </small>
+                </h3>
+            </div>
+        </div>
+
+        <div id="loading" class="text-center my-5">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-3">Chargement des airdrops depuis Google Sheets...</p>
+        </div>
+
+        <div id="airdropsContainer" class="row g-4">
+            <!-- Airdrop cards will be loaded here -->
+        </div>
+
+        <div id="noResults" class="text-center my-5" style="display: none;">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h4>Aucun airdrop trouvé</h4>
+            <p class="text-muted">Essayez de changer vos filtres ou termes de recherche</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="mb-3"><i class="fas fa-gem me-2"></i>AirdropAlpha</h4>
+                    <p>Tracker d'airdrops crypto en temps réel. Connecté à Google Sheets.</p>
+                    <p>Dernière mise à jour : <span id="lastUpdate">--/--/---- --:--</span></p>
+                    <p>Source des données : <span id="sourceInfo" class="badge bg-secondary">Live</span></p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Catégories</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#free" class="text-light text-decoration-none"><i class="fas fa-coins me-2"></i> Airdrops Gratuits</a></li>
+                        <li><a href="#hot" class="text-light text-decoration-none"><i class="fas fa-fire me-2"></i> Airdrops Populaires</a></li>
+                        <li><a href="#ending" class="text-light text-decoration-none"><i class="fas fa-clock me-2"></i> Bientôt finis</a></li>
+                        <li><a href="#easy" class="text-light text-decoration-none"><i class="fas fa-bolt me-2"></i> Tâches Faciles</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Connectez-vous à Nous</h5>
+                    <p>Rejoignez notre communauté pour des mises à jour instantanées</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white fs-4"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="fab fa-discord"></i></a>
+                    </div>
+                    <p class="mt-3 text-muted"><small>Toujours DYOR. Ceci n'est pas un conseil financier.</small></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 🔧 CONFIGURATION - Votre URL API Google Sheets
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxsQ8n2SnTvsO7cvy5VQHyIybxAiukiLXuO_R2gTaQ58A3gUS4Pq1GK9gKYpLOqPc8W4Q/exec';
+        
+        let allAirdrops = [];
+        let currentFilters = {
+            type: 'all',
+            category: 'all',
+            search: ''
+        };
+        let isLiveData = false;
+
+        // Charger les données au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAirdrops();
+            setupAutoRefresh();
+        });
+
+        async function loadAirdrops() {
+            try {
+                showLoading(true);
+                
+                // Ajouter un timestamp pour éviter le cache
+                const timestamp = new Date().getTime();
+                const url = `${API_URL}?t=${timestamp}`;
+                
+                console.log("🔄 Connexion à l'API...");
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`Erreur API: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log("📦 Réponse API reçue:", data);
+                
+                // Vérifier le format de réponse
+                if (Array.isArray(data)) {
+                    // Format simple: tableau direct
+                    allAirdrops = data;
+                } else if (data && Array.isArray(data.data)) {
+                    // Format avec métadonnées: {data: [...]}
+                    allAirdrops = data.data;
+                } else {
+                    throw new Error("Format de réponse API invalide");
+                }
+                
+                isLiveData = true;
+                processAirdrops(allAirdrops);
+                displayAirdrops(allAirdrops);
+                updateStats(allAirdrops);
+                
+                // Mettre à jour l'heure
+                const now = new Date();
+                document.getElementById('lastUpdate').textContent = 
+                    now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'});
+                
+                document.getElementById('liveCount').textContent = allAirdrops.length;
+                document.getElementById('sourceInfo').textContent = 'Live';
+                document.getElementById('sourceInfo').className = 'badge bg-success';
+                
+                showAlert('Données mises à jour avec succès !', 'success');
+                
+            } catch (error) {
+                console.error('❌ Erreur de chargement:', error);
+                isLiveData = false;
+                
+                // Utiliser les données de démo
+                allAirdrops = getDemoData();
+                processAirdrops(allAirdrops);
+                displayAirdrops(allAirdrops);
+                updateStats(allAirdrops);
+                
+                document.getElementById('sourceInfo').textContent = 'Démo';
+                document.getElementById('sourceInfo').className = 'badge bg-warning';
+                
+                showAlert('Utilisation des données démo. Erreur API: ' + error.message, 'warning');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function getDemoData() {
+            return [
+                {
+                    "ID": "1",
+                    "Nom": "LayerZero",
+                    "URL": "https://layerzero.network?ref=AIRDROPALPHA",
+                    "Commission": "$15M",
+                    "Expire le": "-",
+                    "Catégorie": "Infrastructure,Depin",
+                    "Récompense": "$500-$5000+",
+                    "Effort": "Moyen",
+                    "Score": "19",
+                    "Notes": "description . create account",
+                    "Logo": "https://www.google.com/s2/favicons?domain=layerzero.network&sz=128",
+                    "Type": "Hot,Free"
+                },
+                {
+                    "ID": "2",
+                    "Nom": "zkSync",
+                    "URL": "https://zksync.io?ref=AIRDROPALPHA",
+                    "Commission": "$55M",
+                    "Expire le": "2024-03-01",
+                    "Catégorie": "Layer 2,Depin",
+                    "Récompense": "$200-$2000+",
+                    "Effort": "Faible",
+                    "Score": "8",
+                    "Notes": "description make a transaction",
+                    "Logo": "https://www.google.com/s2/favicons?domain=zksync.io&sz=128",
+                    "Type": "Free"
+                },
+                {
+                    "ID": "3",
+                    "Nom": "Starknet",
+                    "URL": "https://starknet.io?ref=AIRDROPALPHA",
+                    "Commission": "$5M",
+                    "Expire le": "2024-02-28",
+                    "Catégorie": "Layer 2",
+                    "Récompense": "$300-$3000+",
+                    "Effort": "Moyen",
+                    "Score": "8",
+                    "Notes": "description",
+                    "Logo": "https://www.google.com/s2/favicons?domain=starknet.io&sz=128",
+                    "Type": "Hot"
+                },
+                {
+                    "ID": "4",
+                    "Nom": "Scroll",
+                    "URL": "https://scroll.io?ref=AIRDROPALPHA",
+                    "Commission": "$5M",
+                    "Expire le": "2024-02-20",
+                    "Catégorie": "Layer 2",
+                    "Récompense": "$100-$1000+",
+                    "Effort": "Faible",
+                    "Score": "7",
+                    "Notes": "description",
+                    "Logo": "https://www.google.com/s2/favicons?domain=scroll.io&sz=128",
+                    "Type": "Hot,Free"
+                },
+                {
+                    "ID": "5",
+                    "Nom": "Linea",
+                    "URL": "https://linea.build?ref=AIRDROPALPHA",
+                    "Commission": "$5M",
+                    "Expire le": "2024-03-15",
+                    "Catégorie": "Layer 2",
+                    "Récompense": "$150-$1500+",
+                    "Effort": "Faible",
+                    "Score": "100",
+                    "Notes": "description",
+                    "Logo": "https://www.google.com/s2/favicons?domain=linea.build&sz=128",
+                    "Type": "Hot"
+                },
+                {
+                    "ID": "6",
+                    "Nom": "Fuel Network",
+                    "URL": "https://fuel.network?ref=AIRDROPALPHA",
+                    "Commission": "$5M",
+                    "Expire le": "2024-01-10",
+                    "Catégorie": "Infrastructure",
+                    "Récompense": "$250-$2500+",
+                    "Effort": "Moyen",
+                    "Score": "6",
+                    "Notes": "description",
+                    "Logo": "https://www.google.com/s2/favicons?domain=fuel.network&sz=128",
+                    "Type": "Free"
+                }
+            ];
+        }
+
+        function processAirdrops(airdrops) {
+            airdrops.forEach(airdrop => {
+                // Convertir le score en nombre
+                airdrop.ScoreNum = parseInt(airdrop.Score) || 0;
+                
+                // Extraire la récompense minimale
+                const rewardMatch = airdrop.Récompense ? airdrop.Récompense.match(/\$(\d+)/) : null;
+                airdrop.RewardMin = rewardMatch ? parseInt(rewardMatch[1]) : 0;
+                
+                // Vérifier la date d'expiration
+                const expiryDate = airdrop["Expire le"];
+                if (expiryDate && expiryDate !== "-") {
+                    const expiry = new Date(expiryDate);
+                    const today = new Date();
+                    airdrop.isExpired = expiry < today;
+                    airdrop.isExpiringSoon = !airdrop.isExpired && 
+                        (expiry - today) < 7 * 24 * 60 * 60 * 1000;
+                    airdrop.daysLeft = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+                } else {
+                    airdrop.isExpired = false;
+                    airdrop.isExpiringSoon = false;
+                    airdrop.daysLeft = Infinity;
+                }
+                
+                // Séparer les catégories
+                airdrop.Categories = airdrop.Catégorie ? 
+                    airdrop.Catégorie.split(',').map(cat => cat.trim()) : [];
+                
+                // Séparer les types
+                airdrop.Types = airdrop.Type ? 
+                    airdrop.Type.split(',').map(type => type.trim().toLowerCase()) : [];
+                
+                // S'assurer que l'URL a le paramètre ref
+                if (airdrop.URL && !airdrop.URL.includes('ref=')) {
+                    airdrop.URL += (airdrop.URL.includes('?') ? '&' : '?') + 'ref=AIRDROPALPHA';
+                }
+            });
+        }
+
+        function displayAirdrops(airdrops) {
+            const container = document.getElementById('airdropsContainer');
+            const title = document.getElementById('sectionTitle');
+            const filterCount = document.getElementById('filterCount');
+            
+            if (airdrops.length === 0) {
+                document.getElementById('noResults').style.display = 'block';
+                container.innerHTML = '';
+                filterCount.textContent = '0';
+                return;
+            }
+            
+            document.getElementById('noResults').style.display = 'none';
+            filterCount.textContent = airdrops.length;
+            
+            // Mettre à jour le titre de section
+            let titleText = 'Derniers Airdrops Crypto';
+            if (currentFilters.type === 'Free') titleText = 'Airdrops Gratuits';
+            if (currentFilters.type === 'Hot') titleText = 'Airdrops Populaires';
+            if (currentFilters.type === 'Hot,Free') titleText = 'Airdrops Gratuits & Populaires';
+            
+            container.innerHTML = airdrops.map(airdrop => `
+                <div class="col-lg-6">
+                    <div class="airdrop-card p-4">
+                        <!-- Badges de Type -->
+                        <div class="d-flex gap-2 mb-3">
+                            ${airdrop.Types && airdrop.Types.map(type => `
+                                <span class="type-badge ${type === 'hot' ? 'type-hot' : 'type-free'}">
+                                    <i class="fas ${type === 'hot' ? 'fa-fire' : 'fa-coins'} me-1"></i>
+                                    ${type === 'hot' ? 'Populaire' : 'Gratuit'}
+                                </span>
+                            `).join('')}
+                        </div>
+                        
+                        <!-- En-tête du Projet -->
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="d-flex align-items-center">
+                                <img src="${airdrop.Logo || 'https://www.google.com/s2/favicons?domain=google.com&sz=128'}" 
+                                     alt="${airdrop.Nom || 'Projet Inconnu'}" 
+                                     class="project-logo me-3"
+                                     onerror="this.src='https://www.google.com/s2/favicons?domain=google.com&sz=128'">
+                                <div>
+                                    <h5 class="fw-bold mb-1">${airdrop.Nom || 'Projet Inconnu'}</h5>
+                                    <div class="d-flex flex-wrap">
+                                        ${airdrop.Categories && airdrop.Categories.map(cat => 
+                                            `<span class="category-tag">${cat}</span>`
+                                        ).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                ${airdrop.Commission ? `
+                                <div class="commission-badge mb-2">
+                                    <i class="fas fa-chart-line me-1"></i> ${airdrop.Commission}
+                                </div>` : ''}
+                                <div class="score-circle ${getScoreClass(airdrop.ScoreNum || 0)}">
+                                    ${airdrop.ScoreNum || 0}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Récompense & Effort -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="reward-badge">
+                                <i class="fas fa-gift me-2"></i> ${airdrop.Récompense || 'Inconnue'}
+                            </div>
+                            <div>
+                                <span class="effort-badge ${airdrop.Effort === 'Faible' ? 'effort-faible' : 'effort-moyen'}">
+                                    <i class="fas fa-running me-1"></i> Effort ${airdrop.Effort || 'Moyen'}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Expiration -->
+                        <div class="mb-3">
+                            ${airdrop["Expire le"] && airdrop["Expire le"] !== "-" ? 
+                                `<span class="expiry-badge ${airdrop.isExpiringSoon ? 'expiry-soon' : 'expiry-future'}">
+                                    <i class="fas fa-clock me-1"></i> 
+                                    ${airdrop.isExpired ? 'Expiré' : `Expire le : ${airdrop["Expire le"]}`}
+                                    ${!airdrop.isExpired && airdrop.daysLeft < 30 ? `(${airdrop.daysLeft} jours)` : ''}
+                                </span>` : 
+                                `<span class="expiry-badge no-expiry">
+                                    <i class="fas fa-infinity"></i> Pas d'expiration
+                                </span>`
+                            }
+                        </div>
+                        
+                        <!-- Description -->
+                        ${airdrop.Notes && airdrop.Notes !== "description" ? 
+                            `<p class="description-text mb-4">
+                                <i class="fas fa-info-circle me-2 text-primary"></i>
+                                ${airdrop.Notes.replace('description', '').trim() || 'Complétez des tâches pour gagner des récompenses'}
+                            </p>` : ''}
+                        
+                        <!-- Bouton d'Action -->
+                        <div class="d-grid">
+                            <a href="${airdrop.URL || '#'}" 
+                               target="_blank" 
+                               class="btn btn-primary btn-lg"
+                               onclick="trackClick('${airdrop.ID || ''}')">
+                                <i class="fas fa-external-link-alt me-2"></i> Réclamer l'Airdrop
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getScoreClass(score) {
+            if (score >= 15) return 'score-high';
+            if (score >= 8) return 'score-medium';
+            return 'score-low';
+        }
+
+        function showAllAirdrops() {
+            currentFilters.type = 'all';
+            applyFilters();
+            updateActiveTab(0);
+        }
+
+        function filterByType(type) {
+            currentFilters.type = type;
+            applyFilters();
+            updateActiveTab(type === 'Free' ? 1 : type === 'Hot' ? 2 : 3);
+        }
+
+        function filterByCategory(category) {
+            currentFilters.category = category;
+            applyFilters();
+            
+            // Mettre à jour les boutons actifs
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(category === 'all' ? 'Toutes Catégories' : category)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function filterByEffort(effort) {
+            let filtered = allAirdrops;
+            if (effort === 'Faible') {
+                filtered = filtered.filter(a => a.Effort === 'Faible');
+            }
+            displayAirdrops(filtered);
+        }
+
+        function applyFilters() {
+            let filtered = allAirdrops;
+            
+            // Filtrer par type
+            if (currentFilters.type !== 'all') {
+                if (currentFilters.type === 'Hot,Free') {
+                    filtered = filtered.filter(airdrop => 
+                        airdrop.Types && airdrop.Types.includes('hot') && airdrop.Types.includes('free')
+                    );
+                } else {
+                    filtered = filtered.filter(airdrop => 
+                        airdrop.Types && airdrop.Types.includes(currentFilters.type.toLowerCase())
+                    );
+                }
+            }
+            
+            // Filtrer par catégorie
+            if (currentFilters.category !== 'all') {
+                filtered = filtered.filter(airdrop => 
+                    airdrop.Categories && airdrop.Categories.includes(currentFilters.category)
+                );
+            }
+            
+            // Filtrer par recherche
+            if (currentFilters.search) {
+                const searchTerm = currentFilters.search.toLowerCase();
+                filtered = filtered.filter(airdrop => 
+                    (airdrop.Nom && airdrop.Nom.toLowerCase().includes(searchTerm)) ||
+                    (airdrop.Catégorie && airdrop.Catégorie.toLowerCase().includes(searchTerm)) ||
+                    (airdrop.Notes && airdrop.Notes.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            displayAirdrops(filtered);
+        }
+
+        function searchAirdrops() {
+            const searchTerm = document.getElementById('searchInput').value;
+            currentFilters.search = searchTerm;
+            applyFilters();
+        }
+
+        function updateActiveTab(tabIndex) {
+            const tabs = document.querySelectorAll('.nav-link');
+            tabs.forEach((tab, index) => {
+                tab.classList.remove('active');
+                if (index === tabIndex) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        function updateStats(airdrops) {
+            const total = airdrops.length;
+            const freeAirdrops = airdrops.filter(a => a.Types && a.Types.includes('free')).length;
+            const hotAirdrops = airdrops.filter(a => a.Types && a.Types.includes('hot')).length;
+            const endingSoon = airdrops.filter(a => a.isExpiringSoon && !a.isExpired).length;
+            
+            // Calculer la récompense moyenne
+            let totalReward = 0;
+            let count = 0;
+            airdrops.forEach(a => {
+                if (a.Récompense) {
+                    const rewardMatch = a.Récompense.match(/\$(\d+)/);
+                    if (rewardMatch) {
+                        totalReward += parseInt(rewardMatch[1]);
+                        count++;
+                    }
+                }
+            });
+            const avgReward = count > 0 ? Math.round(totalReward / count) : 0;
+            
+            // Calculer le financement total
+            let totalFunding = 0;
+            airdrops.forEach(a => {
+                if (a.Commission) {
+                    const fundingMatch = a.Commission.match(/\$(\d+\.?\d*)/);
+                    if (fundingMatch) {
+                        let value = parseFloat(fundingMatch[1]);
+                        if (a.Commission.includes('M')) value *= 1;
+                        else if (a.Commission.includes('K')) value *= 0.001;
+                        else value *= 0.000001;
+                        totalFunding += value;
+                    }
+                }
+            });
+            
+            document.getElementById('totalAirdrops').textContent = total;
+            document.getElementById('totalFree').textContent = freeAirdrops;
+            document.getElementById('totalHot').textContent = hotAirdrops;
+            document.getElementById('endingSoon').textContent = endingSoon;
+            document.getElementById('avgReward').textContent = `$${avgReward}`;
+            document.getElementById('totalFunding').textContent = totalFunding >= 1 ? 
+                `$${totalFunding.toFixed(1)}M` : `$${(totalFunding * 1000).toFixed(0)}K`;
+        }
+
+        function refreshData() {
+            const btn = document.getElementById('refreshBtn');
+            btn.innerHTML = '<span class="loading-spinner"></span>';
+            btn.disabled = true;
+            
+            loadAirdrops();
+            
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                btn.disabled = false;
+            }, 1000);
+        }
+
+        function setupAutoRefresh() {
+            // Rafraîchir automatiquement toutes les 5 minutes si en mode live
+            setInterval(() => {
+                if (isLiveData && document.visibilityState === 'visible') {
+                    console.log('🔄 Rafraîchissement automatique...');
+                    refreshData();
+                }
+            }, 5 * 60 * 1000); // 5 minutes
+        }
+
+        function showAlert(message, type = 'success') {
+            // Créer une alerte temporaire
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-live`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close btn-close-white float-end" onclick="this.parentElement.remove()"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Auto-supprimer après 3 secondes
+            setTimeout(() => {
+                if (alertDiv.parentElement) {
+                    alertDiv.remove();
+                }
+            }, 3000);
+        }
+
+        function showLoading(show) {
+            const loadingElement = document.getElementById('loading');
+            loadingElement.style.display = show ? 'block' : 'none';
+        }
+
+        function trackClick(airdropId) {
+            console.log(`Airdrop cliqué: ${airdropId}`);
+            // Ici vous pouvez ajouter Google Analytics ou autre tracking
+        }
+
+        // Recherche en temps réel
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            currentFilters.search = e.target.value;
+            applyFilters();
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
