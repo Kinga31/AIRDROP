@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirdropAlpha - Free Crypto Airdrops</title>
+    
+    <!-- META DESCRIPTION CRUCIALE POUR LE SEO -->
+    <meta name="description" content="AirdropAlpha : The ultimate list of free crypto airdrops. Filter by category, score and effort level. Maximize your rewards with our curated selection of blockchain opportunities.">
+    
+    <!-- Open Graph tags pour les réseaux sociaux -->
+    <meta property="og:title" content="AirdropAlpha - Discover Free Crypto Airdrops">
+    <meta property="og:description" content="Curated list of the best cryptocurrency airdrops. Maximize your rewards with our verified opportunities.">
+    <meta property="og:image" content="https://airdropalpha.vercel.app/og-image.png">
+    <meta property="og:url" content="https://airdropalpha.vercel.app">
+    <meta property="og:type" content="website">
+    
+    <!-- Structured Data pour le SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "AirdropAlpha",
+      "description": "Platform for discovering and participating in cryptocurrency airdrops",
+      "url": "https://airdropalpha.vercel.app",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://airdropalpha.vercel.app/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.ico">
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        body {
+            background: #f8fafc;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .airdrop-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .airdrop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .project-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 3px solid #e5e7eb;
+        }
+        
+        .badge-type {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-free {
+            background: #d1fae5;
+            color: var(--success);
+        }
+        
+        .badge-hot {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+        
+        .reward-text {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .category-badge {
+            background: #e0e7ff;
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .description-text {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 0.75rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .expiration-badge {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        
+        .filter-category {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-category:hover {
+            transform: scale(1.05);
+        }
+        
+        .filter-type {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-type:hover {
+            transform: scale(1.05);
+        }
+        
+        .category-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .filters-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .filter-section h6 {
+            margin-bottom: 1rem;
+            color: #374151;
+            font-weight: 600;
+        }
+        
+        .active-filter {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .hero-buttons .btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 50px;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+        
+        .search-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        /* Style pour le contenu statique SEO */
+        .seo-static-content .airdrop-card {
+            opacity: 0.95;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-gem me-2"></i>AirdropAlpha
+            </a>
+            <div class="d-flex">
+                <button class="btn btn-primary" onclick="loadAirdrops()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container text-center">
+            <!-- CHANGEMENT SEO: h2 au lieu de h1 dans le hero -->
+            <h2 class="display-4 fw-bold mb-3">Free Crypto Airdrops</h2>
+            <p class="lead mb-4">Discover the best airdrops and maximize your rewards</p>
+            
+            <!-- Hero Buttons -->
+            <div class="hero-buttons">
+                <button class="btn btn-light" onclick="showAll()">
+                    <i class="fas fa-layer-group me-2"></i> View All Airdrops
+                </button>
+                <button class="btn btn-outline-light" onclick="scrollToFilters()">
+                    <i class="fas fa-filter me-2"></i> Filter Airdrops
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="container">
+        <div class="search-container">
+            <div class="search-box">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for a project, category, or description..." id="searchInput">
+                    <button class="btn btn-primary" onclick="searchAirdrops()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="mt-3 text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Search across all airdrop names, categories, and descriptions
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Contenu Statique pour le SEO - CRITIQUE -->
+        <!-- Ce contenu est TOUJOURS visible pour les robots de recherche -->
+        <div id="seo-static-content" class="row mb-5">
+            <div class="col-12 mb-4">
+                <!-- CHANGEMENT SEO: Le vrai h1 de la page est ici -->
+                <h1 class="mb-3">Discover the Best Cryptocurrency Airdrops - Curated List 2024</h1>
+                <p class="lead">AirdropAlpha provides a carefully selected list of the most promising cryptocurrency airdrops. Our platform helps you find opportunities with the best reward potential, categorized by blockchain type, effort required, and community score.</p>
+                <p>Explore our real-time updated selection of free crypto distributions from innovative blockchain projects. Each airdrop is analyzed for legitimacy, reward potential, and participation requirements.</p>
+            </div>
+            
+            <!-- 3 cartes statiques pour le SEO -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="airdrop-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="d-flex align-items-center">
+                            <img src="https://www.google.com/s2/favicons?domain=layerzero.network&sz=128" alt="LayerZero Airdrop" class="project-logo me-3">
+                            <div>
+                                <h2 class="h5 fw-bold mb-1">LayerZero</h2>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge-type badge-hot me-2">Hot</span>
+                                    <span class="expiration-badge"><i class="fas fa-clock me-1"></i>30 days left</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="description-text"><i class="fas fa-info-circle me-1"></i>Create an account and interact with the LayerZero network for a potential reward of $500 to $5000+. This interoperability protocol connects multiple blockchains.</p>
+                    <div class="mb-3">
+                        <span class="category-badge"><i class="fas fa-server me-1"></i>Infrastructure</span>
+                        <span class="category-badge"><i class="fas fa-network-wired me-1"></i>DePIN</span>
+                    </div>
+                    <div class="reward-text mb-3"><i class="fas fa-gift me-2"></i>$500-$5000+</div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-warning">
+                            <i class="fas fa-tasks me-1"></i> Effort: Medium
+                        </span>
+                        <small class="text-muted">
+                            <i class="fas fa-star text-warning me-1"></i> Score: 19/100
+                        </small>
+                    </div>
+                    <a href="https://layerzero.network" target="_blank" rel="noopener" class="btn btn-primary mt-auto">
+                        <i class="fas fa-external-link-alt me-2"></i> Participate Now
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="airdrop-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="d-flex align-items-center">
+                            <img src="https://www.google.com/s2/favicons?domain=zksync.io&sz=128" alt="zkSync Airdrop" class="project-logo me-3">
+                            <div>
+                                <h2 class="h5 fw-bold mb-1">zkSync</h2>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge-type badge-free me-2">Free</span>
+                                    <span class="expiration-badge"><i class="fas fa-clock me-1"></i>45 days left</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="description-text"><i class="fas fa-info-circle me-1"></i>Make transactions on the zkSync layer 2 network for Ethereum. This scaling solution uses zero-knowledge proofs for fast and cheap transactions.</p>
+                    <div class="mb-3">
+                        <span class="category-badge"><i class="fas fa-layer-group me-1"></i>Layer 2</span>
+                        <span class="category-badge"><i class="fas fa-network-wired me-1"></i>DePIN</span>
+                    </div>
+                    <div class="reward-text mb-3"><i class="fas fa-gift me-2"></i>$200-$2000+</div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-success">
+                            <i class="fas fa-tasks me-1"></i> Effort: Low
+                        </span>
+                        <small class="text-muted">
+                            <i class="fas fa-star text-warning me-1"></i> Score: 8/100
+                        </small>
+                    </div>
+                    <a href="https://zksync.io" target="_blank" rel="noopener" class="btn btn-primary mt-auto">
+                        <i class="fas fa-external-link-alt me-2"></i> Participate Now
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="airdrop-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="d-flex align-items-center">
+                            <img src="https://www.google.com/s2/favicons?domain=starknet.io&sz=128" alt="Starknet Airdrop" class="project-logo me-3">
+                            <div>
+                                <h2 class="h5 fw-bold mb-1">Starknet</h2>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge-type badge-hot me-2">Hot</span>
+                                    <span class="badge-type badge-free me-2">Free</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="description-text"><i class="fas fa-info-circle me-1"></i>Develop and deploy smart contracts on Starknet, a ZK-Rollup for Ethereum. This layer 2 solution offers scalability while maintaining Ethereum's security.</p>
+                    <div class="mb-3">
+                        <span class="category-badge"><i class="fas fa-layer-group me-1"></i>Layer 2</span>
+                        <span class="category-badge"><i class="fas fa-code me-1"></i>ZK-Rollup</span>
+                    </div>
+                    <div class="reward-text mb-3"><i class="fas fa-gift me-2"></i>$300-$3000+</div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-danger">
+                            <i class="fas fa-tasks me-1"></i> Effort: High
+                        </span>
+                        <small class="text-muted">
+                            <i class="fas fa-star text-warning me-1"></i> Score: 15/100
+                        </small>
+                    </div>
+                    <a href="https://starknet.io" target="_blank" rel="noopener" class="btn btn-primary mt-auto">
+                        <i class="fas fa-external-link-alt me-2"></i> Participate Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Container -->
+        <div class="filters-container">
+            <!-- Type Filter -->
+            <div class="filter-section">
+                <h6><i class="fas fa-tags me-2"></i>Filter by Type</h6>
+                <div id="typeFiltersContainer" class="d-flex flex-wrap gap-2">
+                    <!-- Type buttons will be generated here -->
+                    <button class="btn btn-sm btn-outline-primary active filter-type" onclick="showAll()">
+                        <i class="fas fa-layer-group me-1"></i> All Airdrops
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Category Filter -->
+            <div class="filter-section">
+                <h6><i class="fas fa-filter me-2"></i>Filter by Category</h6>
+                <div id="categoryFiltersContainer" class="d-flex flex-wrap gap-2">
+                    <!-- Category buttons will be generated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="text-center my-5">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+            <p class="mt-3">Loading airdrops...</p>
+        </div>
+
+        <!-- Airdrops Container (dynamique) -->
+        <div id="airdropsContainer" class="row">
+            <!-- Cards will be generated here by JavaScript -->
+        </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="text-center my-5" style="display: none;">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h3>No airdrops found</h3>
+            <p class="text-muted">Try adjusting your search filters</p>
+        </div>
+        
+        <!-- Section de contenu SEO additionnel -->
+        <div class="row mt-5 pt-5">
+            <div class="col-12">
+                <h2 class="mb-4">What are Crypto Airdrops?</h2>
+                <p>Crypto airdrops are free distributions of cryptocurrency tokens or coins to wallet addresses. Projects use airdrops for marketing, community building, and decentralization of token ownership. AirdropAlpha helps you identify legitimate opportunities with real value potential.</p>
+                
+                <h3 class="mt-4 mb-3">How to Maximize Your Airdrop Rewards</h3>
+                <ul>
+                    <li><strong>Participate Early</strong>: Early participants often receive larger rewards</li>
+                    <li><strong>Complete All Tasks</strong>: Follow all project requirements carefully</li>
+                    <li><strong>Use Multiple Wallets</strong>: Some projects allow participation from different addresses</li>
+                    <li><strong>Stay Secure</strong>: Never share private keys or send money to claim airdrops</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="mb-3"><i class="fas fa-gem me-2"></i>AirdropAlpha</h3>
+                    <p>Your go-to platform for discovering and participating in the best crypto airdrops. We verify each opportunity to ensure legitimacy and value potential.</p>
+                    
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h4 class="mb-3">Follow for Updates</h4>
+                    <p class="mb-2">Stay informed about new airdrop opportunities:</p>
+                    <div class="d-flex justify-content-md-end gap-3">
+                        <a href="#" class="text-white fs-4" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white fs-4" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="text-white fs-4" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4 pt-4 border-top border-secondary">
+                <div class="col-12 text-center">
+                    <p class="small text-muted mb-0">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        Airdrops carry risks. Always do your own research before participating. This site does not provide financial advice.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 🔧 CONFIGURATION
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxsQ8n2SnTvsO7cvy5VQHyIybxAiukiLXuO_R2gTaQ58A3gUS4Pq1GK9gKYpLOqPc8W4Q/exec';
+        
+        let allAirdrops = [];
+        let allCategories = new Set();
+        let allTypes = new Set();
+        
+        // Icons for categories
+        const categoryIcons = {
+            'infrastructure': 'fa-server',
+            'depin': 'fa-network-wired',
+            'layer 2': 'fa-layer-group',
+            'defi': 'fa-chart-line',
+            'nft': 'fa-images',
+            'gaming': 'fa-gamepad',
+            'dao': 'fa-landmark',
+            'social': 'fa-users',
+            'privacy': 'fa-user-secret',
+            'wallet': 'fa-wallet',
+            'bridge': 'fa-bridge',
+            'dex': 'fa-exchange-alt',
+            'lending': 'fa-hand-holding-usd',
+            'stablecoin': 'fa-chart-pie',
+            'oracle': 'fa-database',
+            'ai': 'fa-brain'
+        };
+        
+        // Icons for types
+        const typeIcons = {
+            'free': 'fa-coins',
+            'hot': 'fa-fire',
+            'new': 'fa-star',
+            'exclusive': 'fa-crown',
+            'verified': 'fa-check-circle'
+        };
+        
+        // Colors for categories
+        const categoryColors = {
+            'infrastructure': 'primary',
+            'depin': 'info',
+            'layer 2': 'secondary',
+            'defi': 'success',
+            'nft': 'warning',
+            'gaming': 'danger',
+            'default': 'dark'
+        };
+        
+        // Colors for types
+        const typeColors = {
+            'free': 'success',
+            'hot': 'danger',
+            'new': 'warning',
+            'exclusive': 'secondary',
+            'verified': 'primary',
+            'default': 'dark'
+        };
+        
+        // Load data on startup
+        document.addEventListener('DOMContentLoaded', function() {
+            // Masquer le contenu statique SEO après chargement JS
+            document.getElementById('seo-static-content').style.display = 'none';
+            loadAirdrops();
+        });
+        
+        async function loadAirdrops() {
+            try {
+                showLoading(true);
+                
+                // Make request with cache busting
+                const response = await fetch(API_URL + '?t=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Convert API data
+                allAirdrops = convertApiData(data);
+                
+                // Extract all unique categories and types
+                extractCategoriesAndTypes(allAirdrops);
+                
+                // Generate filter buttons
+                generateTypeButtons();
+                generateCategoryButtons();
+                
+                // Display data
+                displayAirdrops(allAirdrops);
+                
+                showLoading(false);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError(`Loading error: ${error.message}`);
+                showLoading(false);
+                
+                // Fallback data
+                allAirdrops = getFallbackData();
+                extractCategoriesAndTypes(allAirdrops);
+                generateTypeButtons();
+                generateCategoryButtons();
+                displayAirdrops(allAirdrops);
+            }
+        }
+        
+        function convertApiData(data) {
+            console.log('API data received:', data);
+            
+            if (!Array.isArray(data) || data.length === 0) {
+                return [];
+            }
+            
+            // First row contains headers
+            const headers = data[0];
+            
+            // Map letters to column names
+            const columnMap = {};
+            for (const [letter, columnName] of Object.entries(headers)) {
+                if (columnName && columnName.trim() !== '') {
+                    columnMap[letter] = columnName;
+                }
+            }
+            
+            console.log('Column mapping:', columnMap);
+            
+            // Convert following rows
+            const result = [];
+            
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                const airdrop = {};
+                
+                for (const [letter, value] of Object.entries(row)) {
+                    const columnName = columnMap[letter];
+                    if (columnName) {
+                        airdrop[columnName] = value;
+                    }
+                }
+                
+                // Check it's not an empty row
+                if (airdrop.Nom && airdrop.Nom.trim() !== '') {
+                    // Format data for our template
+                    result.push({
+                        Name: airdrop.Nom,
+                        URL: airdrop.URL || '#',
+                        Expiration: airdrop['Expire le'] || '-',
+                        Commission: airdrop.Commission ? `$${airdrop.Commission}M` : '',
+                        Category: airdrop.Catégorie || '',
+                        Reward: airdrop.Récompense || 'Not specified',
+                        Effort: airdrop.Effort || 'Medium',
+                        Score: airdrop.Score || 0,
+                        Notes: airdrop.Notes || 'No description available',
+                        Logo: airdrop.Logo || 'https://www.google.com/s2/favicons?domain=google.com',
+                        Type: airdrop.Type || ''
+                    });
+                }
+            }
+            
+            console.log('Converted data:', result);
+            return result;
+        }
+        
+        function extractCategoriesAndTypes(airdrops) {
+            allCategories.clear();
+            allTypes.clear();
+            
+            airdrops.forEach(airdrop => {
+                // Extract categories
+                if (airdrop.Category) {
+                    const categories = airdrop.Category.split(',');
+                    
+                    categories.forEach(cat => {
+                        const trimmedCat = cat.trim();
+                        if (trimmedCat && trimmedCat !== '') {
+                            allCategories.add(trimmedCat);
+                        }
+                    });
+                }
+                
+                // Extract types
+                if (airdrop.Type) {
+                    const types = airdrop.Type.split(',');
+                    
+                    types.forEach(type => {
+                        const trimmedType = type.trim().toLowerCase();
+                        if (trimmedType && trimmedType !== '') {
+                            allTypes.add(trimmedType);
+                        }
+                    });
+                }
+            });
+            
+            console.log('Extracted categories:', Array.from(allCategories));
+            console.log('Extracted types:', Array.from(allTypes));
+        }
+        
+        function generateTypeButtons() {
+            const container = document.getElementById('typeFiltersContainer');
+            
+            // Keep "All" button
+            const allButton = container.querySelector('button[onclick="showAll()"]');
+            container.innerHTML = '';
+            container.appendChild(allButton);
+            
+            // Sort types alphabetically
+            const sortedTypes = Array.from(allTypes).sort();
+            
+            // Add each type as a button
+            sortedTypes.forEach(type => {
+                const typeLower = type.toLowerCase();
+                const iconClass = typeIcons[typeLower] || 'fa-tag';
+                const colorClass = typeColors[typeLower] || 'dark';
+                const displayName = type.charAt(0).toUpperCase() + type.slice(1);
+                
+                const button = document.createElement('button');
+                button.className = `btn btn-sm btn-outline-${colorClass} filter-type`;
+                button.innerHTML = `<i class="fas ${iconClass} me-1"></i> ${displayName}`;
+                button.onclick = () => filterByType(type);
+                
+                container.appendChild(button);
+            });
+        }
+        
+        function generateCategoryButtons() {
+            const container = document.getElementById('categoryFiltersContainer');
+            
+            // Sort categories alphabetically
+            const sortedCategories = Array.from(allCategories).sort();
+            
+            // Add each category as a button
+            sortedCategories.forEach(category => {
+                const categoryLower = category.toLowerCase();
+                const iconClass = categoryIcons[categoryLower] || 'fa-tag';
+                const colorClass = categoryColors[categoryLower] || 'dark';
+                
+                const button = document.createElement('button');
+                button.className = `btn btn-sm btn-outline-${colorClass} filter-category`;
+                button.innerHTML = `<i class="fas ${iconClass} me-1"></i> ${category}`;
+                button.onclick = () => filterByCategory(category);
+                
+                container.appendChild(button);
+            });
+        }
+        
+        function displayAirdrops(airdrops) {
+            const container = document.getElementById('airdropsContainer');
+            
+            if (!airdrops || airdrops.length === 0) {
+                container.innerHTML = '';
+                document.getElementById('noResults').style.display = 'block';
+                return;
+            }
+            
+            document.getElementById('noResults').style.display = 'none';
+            
+            container.innerHTML = airdrops.map(airdrop => {
+                // Format expiration date
+                let expirationBadge = '';
+                if (airdrop.Expiration && airdrop.Expiration !== '-' && airdrop.Expiration !== 'Indefinite') {
+                    const expDate = new Date(airdrop.Expiration);
+                    const today = new Date();
+                    
+                    if (expDate < today) {
+                        expirationBadge = `<span class="expiration-badge"><i class="fas fa-clock me-1"></i>Expired</span>`;
+                    } else {
+                        const diffTime = expDate - today;
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        expirationBadge = `<span class="expiration-badge"><i class="fas fa-clock me-1"></i>${diffDays} days left</span>`;
+                    }
+                }
+                
+                // Generate category badges with icons
+                let categoryBadges = '';
+                if (airdrop.Category) {
+                    const categories = airdrop.Category.split(',');
+                    categoryBadges = categories.map(cat => {
+                        const trimmedCat = cat.trim();
+                        const categoryLower = trimmedCat.toLowerCase();
+                        const iconClass = categoryIcons[categoryLower] || 'fa-tag';
+                        
+                        return `<span class="category-badge">
+                            <i class="fas ${iconClass} me-1"></i>${trimmedCat}
+                        </span>`;
+                    }).join('');
+                }
+                
+                // Generate type badges
+                let typeBadges = '';
+                if (airdrop.Type) {
+                    const types = airdrop.Type.split(',');
+                    typeBadges = types.map(type => {
+                        const trimmedType = type.trim().toLowerCase();
+                        const displayName = trimmedType.charAt(0).toUpperCase() + trimmedType.slice(1);
+                        
+                        return `<span class="badge-type ${trimmedType === 'free' ? 'badge-free' : 'badge-hot'} me-2">${displayName}</span>`;
+                    }).join('');
+                }
+                
+                return `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="airdrop-card h-100 d-flex flex-column">
+                            <!-- Header -->
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="d-flex align-items-center">
+                                    <img src="${airdrop.Logo}" 
+                                         alt="${airdrop.Name} cryptocurrency airdrop" 
+                                         class="project-logo me-3"
+                                         onerror="this.src='https://www.google.com/s2/favicons?domain=google.com&sz=128'">
+                                    <div>
+                                        <h3 class="h5 fw-bold mb-1">${airdrop.Name}</h3>
+                                        <div class="d-flex align-items-center">
+                                            ${typeBadges}
+                                            ${expirationBadge}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    ${airdrop.Commission ? `<div class="text-muted small">${airdrop.Commission}</div>` : ''}
+                                    <div class="fw-bold text-primary">${airdrop.Score}/100</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Description -->
+                            <div class="mb-3 flex-grow-1">
+                                <p class="description-text" title="${airdrop.Notes}">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    ${airdrop.Notes}
+                                </p>
+                            </div>
+                            
+                            <!-- Categories -->
+                            ${categoryBadges ? `
+                            <div class="mb-3">
+                                ${categoryBadges}
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Reward -->
+                            <div class="reward-text mb-3">
+                                <i class="fas fa-gift me-2"></i>${airdrop.Reward}
+                            </div>
+                            
+                            <!-- Effort & Score -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge ${airdrop.Effort === 'Low' || airdrop.Effort === 'Faible' ? 'bg-success' : airdrop.Effort === 'Medium' || airdrop.Effort === 'Moyen' ? 'bg-warning' : 'bg-danger'}">
+                                    <i class="fas fa-tasks me-1"></i> Effort: ${airdrop.Effort}
+                                </span>
+                                <small class="text-muted">
+                                    <i class="fas fa-star text-warning me-1"></i> Score: ${airdrop.Score}/100
+                                </small>
+                            </div>
+                            
+                            <!-- Button -->
+                            <div class="d-grid mt-auto">
+                                <a href="${airdrop.URL}" target="_blank" rel="noopener" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt me-2"></i> Participate Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function showAll() {
+            // Remove active class from all filter buttons
+            document.querySelectorAll('.filter-type, .filter-category').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('active-filter');
+            });
+            
+            // Add active class to "All" button
+            document.querySelector('button[onclick="showAll()"]').classList.add('active');
+            document.querySelector('button[onclick="showAll()"]').classList.add('active-filter');
+            
+            displayAirdrops(allAirdrops);
+        }
+        
+        function filterByType(type) {
+            // Remove active class from all filter buttons
+            document.querySelectorAll('.filter-type, .filter-category').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('active-filter');
+            });
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.classList.add('active-filter');
+            
+            const filtered = allAirdrops.filter(airdrop => {
+                const airdropType = (airdrop.Type || '').toLowerCase();
+                return airdropType.includes(type.toLowerCase());
+            });
+            displayAirdrops(filtered);
+        }
+        
+        function filterByCategory(category) {
+            // Remove active class from all filter buttons
+            document.querySelectorAll('.filter-type, .filter-category').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('active-filter');
+            });
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.classList.add('active-filter');
+            
+            const filtered = allAirdrops.filter(airdrop => {
+                const categories = (airdrop.Category || '').toLowerCase();
+                return categories.includes(category.toLowerCase());
+            });
+            displayAirdrops(filtered);
+        }
+        
+        function searchAirdrops() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                showAll();
+                return;
+            }
+            
+            const filtered = allAirdrops.filter(airdrop => {
+                const name = (airdrop.Name || '').toLowerCase();
+                const description = (airdrop.Notes || '').toLowerCase();
+                const categories = (airdrop.Category || '').toLowerCase();
+                
+                return name.includes(searchTerm) || 
+                       description.includes(searchTerm) || 
+                       categories.includes(searchTerm);
+            });
+            
+            displayAirdrops(filtered);
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+        
+        function showError(message) {
+            const container = document.getElementById('airdropsContainer');
+            container.innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        ${message}
+                    </div>
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary" onclick="loadAirdrops()">
+                            <i class="fas fa-redo me-2"></i> Try Again
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getFallbackData() {
+            return [
+                {
+                    "Name": "LayerZero",
+                    "Logo": "https://www.google.com/s2/favicons?domain=layerzero.network&sz=128",
+                    "Type": "Hot,Free",
+                    "Category": "Infrastructure,DePIN",
+                    "Reward": "$500-$5000+",
+                    "Effort": "Medium",
+                    "Score": "19",
+                    "Commission": "$5M",
+                    "URL": "https://layerzero.network?ref=AIRDROPALPHA",
+                    "Notes": "Create an account and interact with the LayerZero network"
+                },
+                {
+                    "Name": "zkSync",
+                    "Logo": "https://www.google.com/s2/favicons?domain=zksync.io&sz=128",
+                    "Type": "Free",
+                    "Category": "Layer 2,DePIN",
+                    "Reward": "$200-$2000+",
+                    "Effort": "Low",
+                    "Score": "8",
+                    "Commission": "$5M",
+                    "URL": "https://zksync.io?ref=AIRDROPALPHA",
+                    "Notes": "Make transactions on the zkSync network",
+                    "Expiration": "2024-02-29T21:00:00.000Z"
+                }
+            ];
+        }
+        
+        function scrollToFilters() {
+            const filtersContainer = document.querySelector('.filters-container');
+            filtersContainer.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        // Real-time search
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            searchAirdrops();
+        });
+        
+        // Keyboard shortcut for refresh (Ctrl+R)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                loadAirdrops();
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
